@@ -4,8 +4,8 @@ import styled from "styled-components";
 import iphone from "../assets/iphone.png";
 import logo from "../assets/logo.svg";
 import { useState } from "react";
-import SignInForm from "../components/sign/SignInForm"; //로그인 폼
-import SignUpForm from "../components/sign/SignUpForm"; //회원가입 폼
+import SignInForm from "../components/sign/SignInForm";
+import SignUpForm from "../components/sign/SignUpForm";
 
 const Main = styled.main`
   width: 100vw;
@@ -38,28 +38,65 @@ const LogoImg = styled.img`
   padding: 30px 0;
 `;
 
-/*
-상태 관리와 조건부 렌더링
-*/
-/*
-상태(state) 초기화: useState를 사용하여 isSignIn이라는 상태를 정의. 
-현재 로그인 화면을 보여줄지(true), 회원가입 화면을 보여줄지(false) 결정. 
-초기값은 false로 설정되어 회원가입 폼이 처음에 표시됩니다.
-*/
-const SignPage = () => {
-  const [isSignIn, setIsSignIn] = useState(false);
+const DividorDiv = styled.div`
+  width: 80%;
+  margin: 10px 20px;
 
-	/*
-	페이지 렌더링
-	isSignIn 상태에 따라 다른 폼이 렌더링
-	*/
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 12px;
+`;
+
+const Dividor = styled.div`
+  width: 100px;
+
+  border-top: 1px solid var(--color-grey-2);
+`;
+
+const SwitchDiv = styled.div`
+  width: 80%;
+  margin-bottom: 30px;
+
+  font-size: 12px;
+  text-align: center;
+`;
+
+const SwitchSpan = styled.span`
+  margin-left: 4px;
+
+  color: var(--color-blue-1);
+
+  cursor: pointer;
+`;
+
+const SignPage = () => {
+	//로그인 폼이 기본으로 표시
+  const [isSignIn, setIsSignIn] = useState(true);
+
+	//전환 버튼이 클릭될 때마다 isSignIn 값을 반전시켜 폼을 전환
+  const onClickSwitchSign = () => {
+    setIsSignIn(!isSignIn);
+  };
+
   return (
     <Main>
       <IphoneImg src={iphone} />
       <SignSection>
         <LogoImg src={logo} />
         {isSignIn ? <SignInForm /> : <SignUpForm />}
-        
+        <DividorDiv>
+          <Dividor />
+          <p>OR</p>
+          <Dividor />
+        </DividorDiv>
+        <SwitchDiv>
+          <span>{isSignIn ? "계정이 없으신가요?" : "계정이 있으신가요?"}</span>
+          <SwitchSpan onClick={onClickSwitchSign}>
+            {isSignIn ? "회원가입" : "로그인"}
+          </SwitchSpan>
+        </SwitchDiv>
       </SignSection>
     </Main>
   );
