@@ -1,5 +1,3 @@
-// src/components/navigation/Navigation.tsx
-
 import styled from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -49,8 +47,15 @@ const NavItemLi = styled.li``;
 
 const Navigation = () => {
   const { isOpenSearchModal, openSearchModal } = useModalStore();
-  const { isLoggedIn, logout } = useUserStore();
+  const { isLoggedIn, user, logout } = useUserStore();
   const navigate = useNavigate();
+
+  // profile 버튼을 누르면 본인의 profile로 이동
+  const openProfile = () => {
+    if (isLoggedIn && user) {
+      navigate(`/${user.id}`);
+    }
+  };
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -84,7 +89,12 @@ const Navigation = () => {
               />
             </NavItemLi>
             <NavItemLi>
-              <NavigationItem icon={faUser} size="xl" text="Profile" />
+              <NavigationItem
+                icon={faUser}
+                size="xl"
+                text="Profile"
+                onClick={openProfile} // 프로필 페이지 open
+              />
             </NavItemLi>
           </NavItemUl>
         </div>
